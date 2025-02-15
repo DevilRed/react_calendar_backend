@@ -7,11 +7,8 @@ const app = express();
 app.use(express.static("public"));
 
 // routes
-app.get("/", (req, res) => {
-  res.json({
-    ok: true,
-  });
-});
+app.use('/api/auth', require('./routes/auth'))
+// TODO CRUD: events
 app.listen(process.env.PORT, () => {
   console.log(`server running on port ${process.env.PORT}`);
 });
