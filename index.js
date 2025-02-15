@@ -6,6 +6,9 @@ const app = express();
 // expose public directory
 app.use(express.static("public"));
 
+// read, parse body
+app.use(express.json());
+
 // routes
 app.use('/api/auth', require('./routes/auth'))
 // TODO CRUD: events
