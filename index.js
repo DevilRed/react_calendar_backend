@@ -1,6 +1,10 @@
 const express = require("express");
+require("dotenv").config();
 
 const app = express();
+
+// expose public directory
+app.use(express.static("public"));
 
 // routes
 app.get("/", (req, res) => {
@@ -8,6 +12,6 @@ app.get("/", (req, res) => {
     ok: true,
   });
 });
-app.listen(4000, () => {
-  console.log("server running on port 4000");
+app.listen(process.env.PORT, () => {
+  console.log(`server running on port ${process.env.PORT}`);
 });
