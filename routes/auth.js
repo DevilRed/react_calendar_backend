@@ -4,11 +4,12 @@
 
 const express = require("express");
 const router = express.Router();
+const { userAdd, userLogin, tokenRenew } = require("../controllers/auth");
 
-router.get("/", (req, res) => {
-  res.json({
-    ok: true,
-  });
-});
+router.post("/new", userAdd);
+
+router.post("/", userLogin);
+
+router.get("/renew", tokenRenew);
 
 module.exports = router;
