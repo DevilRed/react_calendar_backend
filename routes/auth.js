@@ -13,14 +13,22 @@ router.post(
     // middlewares
     check("name", "name is required").not().isEmpty(),
     check("email", "email is required").isEmail(),
-    check("password", "password is required abd must have 6 characters length")
-      .not()
-      .isLength({ min: 6 }),
+    check(
+      "password",
+      "password is required and must have 6 characters length"
+    ).isLength({ min: 6 }),
   ],
   userAdd
 );
 
-router.post("/", userLogin);
+router.post(
+  "/",
+  [
+    check("email", "email is required").isEmail(),
+    check("password", "password is required").not().isEmpty(),
+  ],
+  userLogin
+);
 
 router.get("/renew", tokenRenew);
 
