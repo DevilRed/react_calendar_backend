@@ -1,9 +1,12 @@
 const Event = require("../models/Event");
 
-const getEvents = (req, res) => {
+const getEvents = async (req, res) => {
+  const events = await Event.find()
+    // get document relation, specify fields to be returned
+    .populate("user", "name");
   res.json({
     ok: true,
-    msg: "getEvents",
+    events,
   });
 };
 
