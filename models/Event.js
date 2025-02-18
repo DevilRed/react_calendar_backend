@@ -24,4 +24,11 @@ const EventSchema = Schema({
   },
 });
 
+// overwrite toJSON method to hide fields
+EventSchema.method("toJSON", function () {
+  const { __v, _id, ...object } = this.toObject();
+  object.id = _id;
+  return object
+})
+
 module.exports = model("Event", EventSchema);
