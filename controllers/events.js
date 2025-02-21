@@ -66,11 +66,36 @@ const updateEvent = async (req, res) => {
   }
 };
 
-const deleteEvent = (req, res) => {
-  res.json({
-    ok: true,
-    msg: "deleteEvent",
-  });
+const deleteEvent = async (req, res) => {
+  const eventId = req.params.id;
+  try {
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).json({
+        ok: false,
+        msg: "Event not found",
+      });
+    }
+    // check event owner
+    //  event.user is an objectId, use toString() to compare it with the req.uid
+    if (event.user.toString() !== req.uid) {
+      return res.status(401).json({
+        ok: false,
+        msg: "You don't have the privilege to delete this event",
+      });
+    }
+    const deletedEvent = await Event.findByIdAndDelete(eventId);
+    res.json({
+      ok: true,
+      msg: `Event deleted`,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Please contact the administrator",
+    });
+  }
 };
 
 module.exports = {
